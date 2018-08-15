@@ -24,28 +24,35 @@ export default class App extends Component<Props> {
   };
   state = {
     greeting: "Hello World!"
-  }  
+  }
   updateGreeting = () => {
     this.setState ({
-      greeting: "New Greeting"  
+      greeting: "New Greeting"
     })
   }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>{this.state.greeting}</Text>
-        <Text onPress={this.updateGreeting}>Change Greeting</Text>
+        <View style={[styles.box,{backgroundColor: 'red'}]}/>
+        <View style={[styles.box,{backgroundColor: 'green'}]}/>
+        <View style={[styles.box,{backgroundColor: 'blue'}]}/>
       </View>
     );
   }
 }
 
+//// TODO: Todo test
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    //justifyContent: 'center',
+    //alignItems: 'center',
+    backgroundColor: 'pink',
+    //flexDirection:'row',//Available option column // Setting up flex direction. By default it's column. Setting up the Flex axis to Y
+    //justifyContent :'stretch', // Justify contents on Primary axis
+    //alignItems:'center', //Justify contents on Secondary Axis
+
   },
   welcome: {
     fontSize: 20,
@@ -56,5 +63,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
+  },
+  box:{
+    //height: 100,
+    //width: 100,
+    //backgroundColor: 'green',
+    margin:10,
+    flex:1
   },
 });
