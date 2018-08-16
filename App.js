@@ -14,13 +14,23 @@ const people = [
   { name:'Sam', age:33},
   { name:'Matt', age:28},
   { name:'John', age:22},
-  { name:'Adam', age:38},
-  { name:'Natilie', age:35},
-  { name:'Jennifer', age:26},
 ]
 
 export default class App extends Component {
-
+  state = {people, refreshing: false}
+  onRefresh = () => {
+    this.setState({ refreshing:true }, () => {
+      setTimeout(() => {
+        const newPeople = [
+          ...this.state.people,
+          { name: 'Linda', age:23},
+          { name: 'Nathan',age:27},
+          {name:'Jennifer',age:12},
+        ]
+        this.setState({people:newPeople,refreshing:false})
+      }, 2400)
+    })
+  }
   renderItems(){
     return people.map(this.renderItem)
   }
@@ -45,7 +55,9 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
       <FlatList
-        data={people}
+        onRefresh={this.onRefresh}
+        refreshing={this.state.refreshing}
+        data={this.state.people}
         keyExtractor = {item => item.name}
         renderItem={this.renderItem}
         />
