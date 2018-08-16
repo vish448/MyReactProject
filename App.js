@@ -20,13 +20,18 @@ export default class App extends Component {
   renderItems(){
     return people.map(this.renderItem)
   }
-  renderItem(person,index){
+  renderItem = ({ item }) =>{
     return(
-      <Text
-        key={index}
-        style={styles.text}>
-          {person.name} is {person.age}
-      </Text>
+      <View style={styles.textContainer}>
+        <Text
+          style={styles.textHeading}>
+            {item.name}
+        </Text>
+        <Text
+          style={styles.text}>
+            Age: {item.age}
+        </Text>
+      </View>
     )
   }
 
@@ -38,7 +43,7 @@ export default class App extends Component {
       <FlatList
         data={people}
         keyExtractor = {item => item.name}
-        renderItem={({item}) => <Text>{item.name}</Text>}
+        renderItem={this.renderItem}
         />
       </View>
     );
@@ -51,8 +56,16 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       //alignItems: 'center'
     },
+    textContainer:{
+      padding: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ddd',
+    },
+    textHeading:{
+      fontSize: 28,
+    },
     text:{
-      fontSize: 20,
-      padding:12,
+      fontSize: 14,
+      color: '#ccc',
     }
 });
