@@ -10,15 +10,34 @@ import React, {Component} from 'react';
 import {FlatList, StyleSheet, TouchableHighlight, Text, View} from 'react-native';
 
 
-const people = [
+/*const people = [
   { name:'Sam', age:33},
   { name:'Matt', age:28},
   { name:'John', age:22},
-]
+]*/
 
 export default class App extends Component {
-  state = {people, refreshing: false}
-  onRefresh = () => {
+  state = {people: [], refreshing: false, page: 1}
+  async componentDidMount(){
+    this.fetchData()
+  }
+
+  fetchData = async() => {
+    this.setState({refreshing:true})
+    try {
+      const data = await fetch(`https://swapi.co/api/people?page=${this.state.page}`)
+      const json = await data.json()
+      this.setState({
+        people : json.results,
+        page : this.state.page + 1,
+        refreshing: false
+      })
+    }catch (err){
+      console.log('Error fetching date', err)
+    }
+  }
+
+/*  onRefresh = () => {
     this.setState({ refreshing:true }, () => {
       setTimeout(() => {
         const newPeople = [
@@ -30,7 +49,7 @@ export default class App extends Component {
         this.setState({people:newPeople,refreshing:false})
       }, 2400)
     })
-  }
+  }*/
   renderItems(){
     return people.map(this.renderItem)
   }
@@ -43,7 +62,7 @@ export default class App extends Component {
         </Text>
         <Text
           style={styles.text}>
-            Age: {item.age}
+            Gender: {item.gender}
         </Text>
       </View>
     )
@@ -54,8 +73,9 @@ export default class App extends Component {
     //array.map((item,index) => )
     return (
       <View style={styles.container}>
+        <Text>People:</Text>
       <FlatList
-        onRefresh={this.onRefresh}
+        onRefresh={this.fetchData}
         refreshing={this.state.refreshing}
         data={this.state.people}
         keyExtractor = {item => item.name}
@@ -70,6 +90,7 @@ const styles = StyleSheet.create({
   container: {
       flex: 1,
       justifyContent:'center',
+      padding: 20
       //alignItems: 'center'
     },
     textContainer:{
