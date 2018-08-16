@@ -11,8 +11,12 @@ import {FlatList, StyleSheet, TouchableHighlight, Text, View} from 'react-native
 
 
 const people = [
-  { name:'Vishang', age:33},
-  { name:'Nirali', age:28}
+  { name:'Sam', age:33},
+  { name:'Matt', age:28},
+  { name:'John', age:22},
+  { name:'Adam', age:38},
+  { name:'Natilie', age:35},
+  { name:'Jennifer', age:26},
 ]
 
 export default class App extends Component {
