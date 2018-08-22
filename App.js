@@ -7,23 +7,44 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, TouchableHighlight, Text, View,TextInput} from 'react-native';
+import {FlatList, StyleSheet, TouchableHighlight, Text, View,TextInput,Button} from 'react-native';
 
 export default class App extends Component {
-  state = { input : ''}
-   onChangeText = val =>{
-     this.setState({input:val})
+  state = { username : '' , password : '', formData: ''}
+   onChangeText = (key, val) =>{
+     this.setState({[key]:val})
+   }
+   submit = () => {
+     const userData = {
+       username : this.state.username,
+       password : this.state.password,
+       signedIn : true
+     }
+     this.setState({formData:JSON.stringify(userData)})
    }
   render() {
     //array.map((item,index) => )
     return (
       <View style={styles.container}>
-        <Text>People:</Text>
+        <Text>Login Form</Text>
         <TextInput
-          onChangeText = {this.onChangeText}
+          onChangeText = {val => this.onChangeText('username',val)}
           style = {styles.input}
-          />
-        <Text>{this.state.input}</Text>
+          placeholder = 'Username'
+          autoComplete = 'none'
+          autoCorrect = {false}
+                    />
+        <TextInput
+          onChangeText = {val => this.onChangeText('password',val)}
+          style = {styles.input}
+          placeholder = 'Password'
+          autoComplete = 'none'
+          autoCorrect = {false}
+          secureTextEntry= {true}
+                    />
+       <Button onPress={this.submit} title="Submit" />
+       <Text>{this.state.formData}</Text>
+
       </View>
     );
   }
@@ -43,6 +64,7 @@ const styles = StyleSheet.create({
     },
     textHeading:{
       fontSize: 28,
+      textAlign: 'center',
     },
     text:{
       fontSize: 14,
@@ -51,6 +73,9 @@ const styles = StyleSheet.create({
     input:{
       borderWidth: 1,
       borderColor: '#ddd',
-      height: 32,
+      height: 50,
+      paddingLeft: 10,
+      marginBottom: 10,
+      color: '#000',
     },
 });
