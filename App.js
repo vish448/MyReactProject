@@ -7,44 +7,36 @@
  */
 
 import React, {Component} from 'react';
-import {FlatList, StyleSheet, TouchableHighlight, Text, View,TextInput,Button} from 'react-native';
-
+import {Dimensions,ScrollView,Image,CameraRoll, StyleSheet, TouchableHighlight, Text, View, Button} from 'react-native';
+const {width, height} = Dimensions.get('window')
 export default class App extends Component {
-  state = { username : '' , password : '', formData: ''}
-   onChangeText = (key, val) =>{
-     this.setState({[key]:val})
+  state = {photos: [] }
+  getPhotos = async() => {
+   try {
+     const data = await CameraRoll.getPhotos({ first: 10, assetType: 'All' })
+     console.log('photos: ', data)
+     this.setState({photos: data.edges })
+   } catch (err) {
+     console.log('error:', err)
    }
-   submit = () => {
-     const userData = {
-       username : this.state.username,
-       password : this.state.password,
-       signedIn : true
-     }
-     this.setState({formData:JSON.stringify(userData)})
-   }
+ }
   render() {
-    //array.map((item,index) => )
     return (
       <View style={styles.container}>
-        <Text>Login Form</Text>
-        <TextInput
-          onChangeText = {val => this.onChangeText('username',val)}
-          style = {styles.input}
-          placeholder = 'Username'
-          autoComplete = 'none'
-          autoCorrect = {false}
-                    />
-        <TextInput
-          onChangeText = {val => this.onChangeText('password',val)}
-          style = {styles.input}
-          placeholder = 'Password'
-          autoComplete = 'none'
-          autoCorrect = {false}
-          secureTextEntry= {true}
-                    />
-       <Button onPress={this.submit} title="Submit" />
-       <Text>{this.state.formData}</Text>
-
+        <Text>Camera Roll Demo</Text>
+        <Button onPress={this.getPhotos} title='Get Photos' />
+        <ScrollView>
+          <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
+        {
+          this.state.photos.map((image,index) => (
+            <Image
+              source={{uri: image.node.image.uri}}
+              style={{width: width/2,height: width/2}}
+              >
+            </Image>
+          ))
+        }</View>
+      </ScrollView>
       </View>
     );
   }
@@ -53,8 +45,9 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
       flex: 1,
-      justifyContent:'center',
-      padding: 20
+      //justifyContent:'center',
+      //padding: 20,
+      marginTop: 20,
       //alignItems: 'center'
     },
     textContainer:{
