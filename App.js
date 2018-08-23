@@ -7,85 +7,47 @@
  */
 
 import React, {Component} from 'react';
-import {Animated,
-  Image, StyleSheet, TouchableHighlight, Text, View, Button} from 'react-native';
+import {StyleSheet, TouchableHighlight, Text, View, Button} from 'react-native';
 
-//TODO:
-// Animated. => view.,image, text
-//1. Animated component from react Native.
-//2. Create animate value on the class
-//3. Create animated component and set a style propety using animated Value
-//4. Create & Trigger the animation
+import { createStackNavigator} from 'react-navigation'
+// TODO:
+// Types of Navigation
+// Stack, Tab, Drawer, switch
 
-export default class App extends Component {
-  animatedValue1 = new Animated.Value(0)
-  animatedValue2 = new Animated.Value(0)
-  animatedValue3 = new Animated.Value(0)
+class App extends Component {
 
-  animate = () => {
-    this.animatedValue1.setValue(0)
-    this.animatedValue2.setValue(0)
-    this.animatedValue3.setValue(0)
-    const createAnimation = (value, toValue, duration) => Animated.timing(
-     value,
-      {
-        toValue,
-        duration
-      }
-    )
-    Animated.parallel([
-      createAnimation(this.animatedValue1,100,700),
-      createAnimation(this.animatedValue2,700,3000),
-      createAnimation(this.animatedValue3,350,5000)
-    ]).start((()=>{
-      console.log('Animation Complete');
-    }))
-  }
+
   render() {
+    console.log('Props', this.props)
     return (
       <View style={styles.container}>
-        <Button title="Animate" onPress={this.animate}></Button>
-        <Animated.View style={{
-            height:50,width:50, backgroundColor: 'orange',marginLeft: this.animatedValue1
-          }}/>
-        <Animated.View style={{
-            height:50,width:50, backgroundColor: 'white',borderWidth: 1, marginRight: this.animatedValue2
-          }}/>
-        <Animated.View style={{
-            height:50,width:50, backgroundColor: 'green', marginBottom: this.animatedValue3
-          }}/>
+        <Text title="Navigation">Navigation Demo</Text>
+        <Text onPress= {
+            () => this.props.navigation.navigate('Screen2')
+          }>To Screen2</Text>
+
       </View>
     );
   }
 }
 
+const Screen2 = props =><View>
+  <Text>Hello from Screen2</Text>
+  <Text onPress={
+      ()=>props.navigation.goBack()
+    }>Go Back</Text>
+</View>
+const Nav = createStackNavigator([
+  App:{screen: App},
+  Screen2:{screen: Screen2}
+])
+
+export default Nav
+
 const styles = StyleSheet.create({
   container: {
       flex: 1,
-      //justifyContent:'center',
-      //padding: 20,
-      marginTop: 20,
-      //alignItems: 'center'
+      paddingVertical: 30
     },
-    textContainer:{
-      padding: 20,
-      borderBottomWidth: 1,
-      borderBottomColor: '#ddd',
-    },
-    textHeading:{
-      fontSize: 28,
-      textAlign: 'center',
-    },
-    text:{
-      fontSize: 14,
-      color: '#ccc',
-    },
-    input:{
-      borderWidth: 1,
-      borderColor: '#ddd',
-      height: 50,
-      paddingLeft: 10,
-      marginBottom: 10,
-      color: '#000',
-    },
+
 });
