@@ -23,6 +23,9 @@ export default class App extends Component {
   animatedValue3 = new Animated.Value(0)
 
   animate = () => {
+    this.animatedValue1.setValue(0)
+    this.animatedValue2.setValue(0)
+    this.animatedValue3.setValue(0)
     const createAnimation = (value, toValue, duration) => Animated.timing(
      value,
       {
@@ -34,7 +37,9 @@ export default class App extends Component {
       createAnimation(this.animatedValue1,100,700),
       createAnimation(this.animatedValue2,700,3000),
       createAnimation(this.animatedValue3,350,5000)
-    ]).start()
+    ]).start((()=>{
+      console.log('Animation Complete');
+    }))
   }
   render() {
     return (
