@@ -7,36 +7,49 @@
  */
 
 import React, {Component} from 'react';
-import {Dimensions,ScrollView,Image,CameraRoll, StyleSheet, TouchableHighlight, Text, View, Button} from 'react-native';
-const {width, height} = Dimensions.get('window')
+import {Animated,
+  Image, StyleSheet, TouchableHighlight, Text, View, Button} from 'react-native';
+
+//TODO:
+// Animated. => view.,image, text
+//1. Animated component from react Native.
+//2. Create animate value on the class
+//3. Create animated component and set a style propety using animated Value
+//4. Create & Trigger the animation
+
 export default class App extends Component {
-  state = {photos: [] }
-  getPhotos = async() => {
-   try {
-     const data = await CameraRoll.getPhotos({ first: 10, assetType: 'All' })
-     console.log('photos: ', data)
-     this.setState({photos: data.edges })
-   } catch (err) {
-     console.log('error:', err)
-   }
- }
+  animatedValue = new Animated.Value(0)
+  animate = () => {
+    Animated.timing(
+      this.animatedValue,
+      {
+          toValue:1,
+          duration:2000
+      }
+      // TODO:
+      //1.animatd property
+      //2. config
+    ).start()
+  }
   render() {
+    const margin = this.animatedValue.interpolate({
+      inputRange:[0,1], outputRange:[0,200]
+    })
+    const backgroundColor = this.animatedValue.interpolate({
+      inputRange:[0,1], outputRange:['red','orange']
+    })
+    const rotation = this.animatedValue.interpolate({
+      inputRange:[0,1], outputRange:['0deg','360deg']
+    })
     return (
       <View style={styles.container}>
-        <Text>Camera Roll Demo</Text>
-        <Button onPress={this.getPhotos} title='Get Photos' />
-        <ScrollView>
-          <View style={{flexWrap: 'wrap', flexDirection: 'row'}}>
-        {
-          this.state.photos.map((image,index) => (
-            <Image
-              source={{uri: image.node.image.uri}}
-              style={{width: width/2,height: width/2}}
-              >
-            </Image>
-          ))
-        }</View>
-      </ScrollView>
+        <Button title="Animate" onPress={this.animate}></Button>
+        <Animated.View style={{
+            transform: [{
+              rotate: rotation
+            }],
+            height:50,width:50,backgroundColor,marginTop: margin, marginLeft: margin
+          }}/>
       </View>
     );
   }
