@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, ActivityIndicator} from 'react-native'
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation'
 
-//import { withAuthenticator } from 'aws-amplify-react-native'
+import { withAuthenticator } from 'aws-amplify-react-native'
 
 const Home = (props) => <View>
   <Text>Home</Text>
