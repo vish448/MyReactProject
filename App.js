@@ -12,10 +12,9 @@ const Page2 = (props) => <View>
   <Text onPress={() => props.navigation.goBack()}>Go back</Text>
 </View>
 
-const Info = (props) => <View>
+const Info = (props) =>
   <Text>Info</Text>
   //<Text onPress={() => props.navigation.goBack()}>Go back</Text>
-</View>
 
 Home.navigationOptions = {
   title: 'Home'
@@ -26,7 +25,7 @@ Page2.navigationOptions = {
 }
 
 Info.navigationOptions = {
-  title: 'Page 2'
+  title: 'Info'
 }
 
 const stackNav = createStackNavigator({
