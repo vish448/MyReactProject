@@ -1,53 +1,28 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React from 'react'
+import { View, Text, } from 'react-native'
+import { createStackNavigator } from 'react-navigation'
 
-import React, {Component} from 'react';
-import {StyleSheet, TouchableHighlight, Text, View, Button} from 'react-native';
+const Home = (props) => <View>
+  <Text>Home</Text>
+  <Text onPress={() => props.navigation.navigate('Page2')}>Go to page 2</Text>
+</View>
 
-import { createStackNavigator} from 'react-navigation'
-// TODO:
-// Types of Navigation
-// Stack, Tab, Drawer, switch
+const Page2 = (props) => <View>
+  <Text>Page2</Text>
+  <Text onPress={() => props.navigation.goBack()}>Go back</Text>
+</View>
 
-class App extends Component {
-
-
-  render() {
-    console.log('Props', this.props)
-    return (
-      <View style={styles.container}>
-        <Text title="Navigation">Navigation Demo</Text>
-        <Text onPress= {
-            () => this.props.navigation.navigate('Screen2')
-          }>To Screen2</Text>
-
-      </View>
-    );
-  }
+Home.navigationOptions = {
+  title: 'Home'
 }
 
-const Screen2 = props =><View>
-  <Text>Hello from Screen2</Text>
-  <Text onPress={
-      ()=>props.navigation.goBack()
-    }>Go Back</Text>
-</View>
-const Nav = createStackNavigator([
-  App:{screen: App},
-  Screen2:{screen: Screen2}
-])
+Page2.navigationOptions = {
+  title: 'Page 2'
+}
 
-export default Nav
+const Navigation = createStackNavigator({
+  Home: { screen: Home },
+  Page2: { screen: Page2 }
+})
 
-const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      paddingVertical: 30
-    },
-
-});
+export default Navigation
