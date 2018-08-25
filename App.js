@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, } from 'react-native'
-import { createStackNavigator } from 'react-navigation'
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
 
 const Home = (props) => <View>
   <Text>Home</Text>
@@ -12,6 +12,11 @@ const Page2 = (props) => <View>
   <Text onPress={() => props.navigation.goBack()}>Go back</Text>
 </View>
 
+const Info = (props) => <View>
+  <Text>Info</Text>
+  //<Text onPress={() => props.navigation.goBack()}>Go back</Text>
+</View>
+
 Home.navigationOptions = {
   title: 'Home'
 }
@@ -20,9 +25,19 @@ Page2.navigationOptions = {
   title: 'Page 2'
 }
 
-const Navigation = createStackNavigator({
+Info.navigationOptions = {
+  title: 'Page 2'
+}
+
+const stackNav = createStackNavigator({
   Home: { screen: Home },
   Page2: { screen: Page2 }
 })
 
-export default Navigation
+const tabNav = createBottomTabNavigator({
+  Home: { screen: stackNav },
+  Info: { screen: Info },
+})
+
+
+export default tabNav
